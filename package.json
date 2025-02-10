@@ -11,7 +11,6 @@
     "strapi": "strapi"
   },
   "dependencies": {
-    "@strapi/plugin-cloud": "5.8.1",
     "@strapi/plugin-users-permissions": "5.8.1",
     "@strapi/strapi": "5.8.1",
     "pg": "8.8.0",
