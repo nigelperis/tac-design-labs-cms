@@ -14,8 +14,11 @@ WORKDIR /build
 # PACKAGE INSTALATION
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm i --prod
+ENV PATH="/build/node_modules/.bin:$PATH"
+
 
 # CODE BUILD
+WORKDIR /build/outputs
 COPY . .
 RUN pnpm run build
 
@@ -32,11 +35,13 @@ ENV PATH="$PNPM_HOME:$PATH"
 ARG NODE_ENV=development
 ENV NODE_ENV=${NODE_ENV}
 WORKDIR /app
-COPY --from=builder /build ./
-ENV PATH="/app/.bin:$PATH"
+COPY --from=builder /build/node_modules ./node_modules
+ENV PATH="/app/node_modules/.bin:$PATH"
+WORKDIR /app/outputs
+COPY --from=builder /build/outputs ./
 
 # Rutime configuration
-RUN chown -R node:node /app/dist
+RUN chown -R node:node /app/outputs
 EXPOSE 1337
 ENTRYPOINT ["pnpm","start"]
 
