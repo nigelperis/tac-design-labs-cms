@@ -1,0 +1,51 @@
+version: "3.8"
+name: tac-labs-backend
+
+services:
+  tac-labs-strapi-cms:
+    build: .
+    image: tac-labs/strapi-cms
+    depends_on:
+      - tac-labs-postgres
+    ports:
+      - 1337:1337
+    environment:
+      - HOST=${HOST}
+      - PORT=${PORT}
+      - APP_KEYS=${APP_KEYS}
+      - API_TOKEN_SALT=${API_TOKEN_SALT}
+      - ADMIN_JWT_SECRET=${ADMIN_JWT_SECRET}
+      - TRANSFER_TOKEN_SALT=${TRANSFER_TOKEN_SALT}
+      - DATABASE_CLIENT=${DATABASE_CLIENT}
+      - DATABASE_HOST=${DATABASE_HOST}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_USERNAME=${DATABASE_USERNAME}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_SSL=${DATABASE_SSL}
+      - JWT_SECRET=${JWT_SECRET}
+    volumes:
+      - strapi-uploads:/app/outputs/public
+    networks:
+      - tac-labs-network
+    restart: no
+
+  tac-labs-postgres:
+    image: postgres
+    environment:
+      - POSTGRES_USER=${DATABASE_USERNAME}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
+    volumes:
+      - tac-labs-database:/var/lib/postgresql/data
+    networks:
+      - tac-labs-network
+    restart: no
+
+volumes:
+  strapi-uploads:
+  tac-labs-database:
+
+networks:
+  tac-labs-network:
+    driver: bridge
