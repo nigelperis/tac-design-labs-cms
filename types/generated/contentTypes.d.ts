@@ -419,12 +419,13 @@ export interface ApiBlogBlog extends Struct.CollectionTypeSchema {
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::blog.blog'> &
       Schema.Attribute.Private;
     mainContent: Schema.Attribute.Blocks & Schema.Attribute.Required;
+    metaDescription: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     publishedOn: Schema.Attribute.Date;
     shortDescription: Schema.Attribute.Text &
       Schema.Attribute.Required &
       Schema.Attribute.SetMinMaxLength<{
-        maxLength: 150;
+        maxLength: 300;
       }>;
     slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
     title: Schema.Attribute.String &

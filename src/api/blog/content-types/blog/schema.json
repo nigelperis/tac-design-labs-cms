@@ -29,7 +29,7 @@
     "shortDescription": {
       "type": "text",
       "required": true,
-      "maxLength": 150
+      "maxLength": 300
     },
     "mainContent": {
       "type": "blocks",
@@ -48,6 +48,9 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::author.author"
+    },
+    "metaDescription": {
+      "type": "string"
     }
   }
 }
